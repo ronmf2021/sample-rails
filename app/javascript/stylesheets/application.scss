@@ -1,0 +1,32 @@
+@import "~bootstrap/scss/bootstrap";
+
+a.btn {
+    margin: 15px 0;
+    color: #fff
+}
+
+.pagination a, 
+.pagination .current, 
+.pagination .previous_page, 
+.pagination .next_page {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.pagination .current {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.pagination .previous_page{
+    margin-left: 0;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
