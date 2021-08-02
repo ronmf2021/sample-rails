@@ -1,4 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
+@import "../../../node_modules/daterangepicker/daterangepicker.css";
 
 a.btn {
     margin: 15px 0;
@@ -29,4 +30,26 @@ a.btn {
     margin-left: 0;
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
+}
+
+.field_with_errors {
+    padding: 0;
+    background: none;
+    display: block;
+}
+
+.btn-search-block {
+    padding: 15px 0 0;
+}
+
+.book-item .image{
+    height: 300px;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.book-item .title {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 20px;
 }

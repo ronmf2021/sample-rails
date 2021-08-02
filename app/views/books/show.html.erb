@@ -10,9 +10,21 @@
   <%= @book.sort %>
 </p>
 
+
+<p>
+  <strong>Category:</strong>
+  <%= category_title(@book.category) %>
+</p>
+
+<p>
+  <% if @book.image.attached? %>
+  <%= image_tag @book.image, style: 'max-width: 120px; display: block' %>
+  <% end %>
+</p>
+
 <p>
   <strong>Author:</strong>
-  <%= @book.author_id %>
+  <%= author_names(@book.authors) %>
 </p>
 
 <p>

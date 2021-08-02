@@ -1,15 +1,6 @@
 <%= form_with(model: author) do |form| %>
-  <% if author.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(author.errors.count, "error") %> prohibited this author from being saved:</h2>
-
-      <ul>
-        <% author.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  
+  <%= render 'layouts/error', error_object: author %>
 
   <div class="form-group">
     <%= form.label :name %>
@@ -18,7 +9,7 @@
 
   <div class="form-group">
     <%= form.label :bday %>
-    <%= form.datetime_select :bday, class: 'form-control'  %>
+    <%= form.text_field :bday, class: 'form-control'  %>
   </div>
 
   <div class="actions">

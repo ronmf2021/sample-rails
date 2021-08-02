@@ -1,0 +1,28 @@
+
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Book Store</h1>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <% @books.each do |book| %>
+        <div class="col-md-3 book-item">
+            <div class="image">
+                <% if book.image.attached? %>
+                <%= image_tag book.image, style: 'max-height: 100%; width:auto; display: block' %>
+                <% end %>
+            </div>
+            <div class="title"><%= book.title %></div>
+        </div>
+        <% end %>
+
+        <div class="col-md-12">
+            <div class="float-right">
+                <%= will_paginate @books %>
+            </div>
+        </div>
+    </div>
+</div>

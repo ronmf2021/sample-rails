@@ -1,0 +1,11 @@
+<% if error_object.errors.any? %>
+<div class="alert alert-danger" role="alert">
+    <p>We have: <%= pluralize(error_object.errors.count, "error") %></p>
+    <hr>
+    <ul>
+        <% error_object.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>

@@ -1,15 +1,6 @@
 <%= form_with(model: book) do |form| %>
-  <% if book.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
-
-      <ul>
-        <% book.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  
+  <%= render 'layouts/error', error_object: book %>
 
   <div class="form-group">
     <%= form.label :title %>
@@ -22,13 +13,27 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :author_id %>
-    <%= form.number_field :author_id, class: 'form-control' %>
+    <%= form.label :category_id %>
+    <%= form.select(:category_id, options_for_select(category_options(), category_id_by_book(book) ), {}, class: 'form-control') %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :author_ids, 'Authors' %>
+    <%= form.collection_select :author_ids, authors(), :id, :name, {}, class: 'form-control', multiple: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :publish_date %>
-    <%= form.datetime_select :publish_date %>
+    <%= form.text_field :publish_date, value: date_from_sql_to_view(book.publish_date, '%m/%d/%Y'), class:'form-control', placeholder: 'Publish date...', 'data-datetimepicker': 'true', autocomplete: 'off' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <% if book.image.attached? %>
+    <%= image_tag book.image, style: 'max-width: 200px; display: block' %>
+    <%= form.check_box :delete_image %> delete it?
+    <% end %>
+    <%= form.file_field :image, class: 'form-control' %>
   </div>
 
   <div class="actions">

@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<%= render 'layouts/notice', notice: notice %>
 
 <h1>Categories</h1>
 
@@ -25,3 +25,6 @@
     <% end %>
   </tbody>
 </table>
+<div class="float-right">
+  <%= will_paginate @categories %>
+</div>

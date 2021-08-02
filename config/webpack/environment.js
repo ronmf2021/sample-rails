@@ -7,6 +7,7 @@ environment.plugins.append(
   new webpack.ProvidePlugin({
     $: "jquery",
     jQuery: "jquery",
+    moment: "moment",
     Popper: ["popper.js", "default"] // for Bootstrap 4
   })
 );

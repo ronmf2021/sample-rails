@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<%= render 'layouts/notice', notice: notice %>
 
 <h1>Authors</h1>
 
@@ -18,7 +18,7 @@
     <% @authors.each do |author| %>
       <tr>
         <td><%= author.name %></td>
-        <td><%= author.bday %></td>
+        <td><%= date_from_sql_to_view(author.bday, '%m/%d/%Y') %></td>
         <td><%= link_to 'Show', author %></td>
         <td><%= link_to 'Edit', edit_author_path(author) %></td>
         <td><%= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -26,3 +26,7 @@
     <% end %>
   </tbody>
 </table>
+
+<div class="float-right">
+  <%= will_paginate @authors %>
+</div>
