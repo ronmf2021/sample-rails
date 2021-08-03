@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Book, type: :model do
     context "validation tests" do
         
-        let(:category) { build :category }
-        let(:book)  { build :book, category: category }
+        # let(:category) { build :category }
+        let(:book)  { build :book }
 
         it "book title should be presence" do
             expect(book.title).to eq "Ruby" 
@@ -23,10 +23,10 @@ RSpec.describe Book, type: :model do
 
     context "scope tests" do
         
-        let(:category) { build :category }
+        # let(:category) { build :category }
         let(:author1) { build :author, id: 1 }
         let(:author2) { build :author, id: 2, name: 'IBM' }
-        let(:book)  { build :book, category: category, authors: [author1, author2] }
+        let(:book)  { build :book, authors: [author1, author2] }
 
         before(:each) do
             book.save
