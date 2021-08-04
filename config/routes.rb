@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   get 'static_pages/home'
+
   resources :authors
   resources :categories
-  resources :books
-
-  post 'books/search', to: 'books#search'
+  resources :books do
+    collection do
+      post :search
+    end
+  end
 
   root to: 'books#index'
 

@@ -3,12 +3,13 @@ class BooksController < ApplicationController
   before_action :format_publish_date_param, only: %i[ create update ]
 
   def index
-    @books = Book.paginate(page: params[:page], per_page: PER_PAGE).order('sort asc')
-    @books = @books.find_by_keyword(search_params[:keyword]) unless (search_params[:keyword].nil? || search_params[:keyword].empty?)
-    @books = @books.find_by_category(search_params[:category]) if search_params[:category].to_i > 0
-    @books = @books.find_by_author(search_params[:author]) if search_params[:author].to_i > 0
-    @books = @books.find_by_publish_date(search_params[:publish_date]) unless search_params[:publish_date].to_s.empty?
-    @books
+    @books = Book.includes(:authors, :category)
+                 .find_by_keyword(search_params[:keyword])
+                 .find_by_category(search_params[:category])
+                 .find_by_author(search_params[:author])
+                 .find_by_publish_date(search_params[:publish_date])
+                 .paginate(page: params[:page], per_page: PER_PAGE)
+                 .order('sort asc')
   end
 
   def show
@@ -23,14 +24,10 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-    
-    author_params[:author_ids].each do |k, v|
-      @book.authors << Author.find(k) unless k.empty?
-    end
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to books_path, notice: "Book was successfully created." }
+        format.html { redirect_to book_path(@book), notice: "Book was successfully created." }
         format.json { render :show, status: :created, location: @book }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,18 +37,11 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book.authors = []
-    
-    author_params[:author_ids].each do |k, v|
-      @book.authors << Author.find(k) unless k.empty?
-    end
-    
-    @book.image.purge if delete_params[:delete_image].to_i == 1
-    
     respond_to do |format|
       if @book.update(book_params)
-        @book
-        format.html { redirect_to books_path, notice: "Book was successfully updated." }
+        @book.image.purge if delete_params[:delete_image].to_i == 1
+
+        format.html { redirect_to book_path(@book), notice: "Book was successfully updated." }
         format.json { render :show, status: :ok, location: @book }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -62,8 +52,9 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
+
     respond_to do |format|
-      format.html { redirect_to books_url, notice: "Book was successfully destroyed." }
+      format.html { redirect_to books_path, notice: "Book was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -75,7 +66,7 @@ class BooksController < ApplicationController
 
   private
     def set_book
-      @book = Book.find(params[:id])
+      @book = Book.find(params[:id]).decorate
     end
 
     def format_publish_date_param
@@ -84,11 +75,7 @@ class BooksController < ApplicationController
     end
 
     def book_params
-      params.require(:book).permit(:title, :sort, :category_id, :image, :publish_date)
-    end
-
-    def author_params
-      params.require(:book).permit(:author_ids => [])
+      params.require(:book).permit(:title, :sort, :category_id, :image, :publish_date, author_ids: [])
     end
 
     def search_params

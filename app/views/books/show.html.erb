@@ -13,7 +13,7 @@
 
 <p>
   <strong>Category:</strong>
-  <%= category_title(@book.category) %>
+  <%= @book.category&.title %>
 </p>
 
 <p>
@@ -24,12 +24,12 @@
 
 <p>
   <strong>Author:</strong>
-  <%= author_names(@book.authors) %>
+  <%= @book.author_names %>
 </p>
 
 <p>
   <strong>Publish date:</strong>
-  <%= @book.publish_date %>
+  <%= @book.formated_publish_date %>
 </p>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |

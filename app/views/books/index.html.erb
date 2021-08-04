@@ -19,18 +19,18 @@
   </thead>
 
   <tbody>
-    <% @books.each do |book| %>
+    <% @books.decorate.each do |book| %>
       <tr>
         <td><%= book.title %></td>
         <td><%= book.sort %></td>
-        <td><%= category_title(book.category) %></td>
+        <td><%= book.category&.title %></td>
         <td>
           <% if book.image.attached? %>
           <%= image_tag book.image, style: 'max-width: 120px; display: block' %>
           <% end %>
         </td>
-        <td><%= author_names(book.authors) %></td>
-        <td><%= date_from_sql_to_view(book.publish_date, '%m/%d/%Y') %></td>
+        <td><%= book.author_names %></td>
+        <td><%= book.formated_publish_date %></td>
         <td><%= link_to 'Show', book %></td>
         <td><%= link_to 'Edit', edit_book_path(book) %></td>
         <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>

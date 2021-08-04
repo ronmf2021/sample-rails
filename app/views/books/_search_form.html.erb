@@ -1,16 +1,16 @@
-<%= form_with url: books_search_path do |f| %>
+<%= form_with url: search_books_path do |f| %>
   <div class='row'>
       <div class="col-md-3">
         <%= f.text_field :keyword, value: params[:keyword], class: 'form-control', placeholder: 'Keyword...'  %>
       </div>
       <div class="col-md-3">
-        <%= f.select :category, options_for_select(category_options(), params[:category]), {}, class: 'form-control'  %>
+        <%= f.select :category, options_for_select(category_options(), params[:category]), {prompt: "--Choose category--"}, class: 'form-control'  %>
       </div>
       <div class="col-md-3">
         <%= f.text_field :publish_date, value: params[:publish_date], class: 'form-control', placeholder: 'Publish date...', 'data-datetimepicker': 'true', autocomplete: 'off' %>
       </div>
       <div class="col-md-3">
-        <%= f.select :author, options_for_select(author_options(), params[:author]), {}, class: 'form-control'  %>
+        <%= f.select :author, options_for_select(author_options(), params[:author]), {prompt: "--Choose author--"}, class: 'form-control'  %>
       </div>
       <div class="col-md-12">
         <div class="float-right btn-search-block">
