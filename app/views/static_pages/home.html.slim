@@ -1,0 +1,16 @@
+.container
+  .jumbotron.jumbotron-fluid
+    .container
+      h1.display-4
+        | Book Store
+  .row
+    - @books.each do |book|
+      .col-md-3.book-item
+        .image
+          - if book.image.attached?
+            = image_tag book.image, style: 'max-height: 100%; width:auto; display: block'
+        .title
+          = book.title
+    .col-md-12
+      .float-right
+        = will_paginate @books

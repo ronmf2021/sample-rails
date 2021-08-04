@@ -1,0 +1,10 @@
+= form_with(model: author) do |form|
+  = render 'layouts/error', error_object: author
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.label :bday
+    = form.text_field :bday, class: 'form-control'
+  .actions
+    = form.submit 'Apply', class: 'btn btn-primary'

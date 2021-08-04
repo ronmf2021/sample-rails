@@ -1,0 +1,8 @@
+- if error_object.errors.any? 
+    .alert class="alert-danger" role="alert"
+        p We have #{pluralize(error_object.errors.count, "error")}
+        hr
+        ul 
+            - error_object.errors.each do |error|
+                li = error.full_message
+    

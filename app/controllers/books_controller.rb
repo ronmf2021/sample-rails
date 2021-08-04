@@ -16,7 +16,7 @@ class BooksController < ApplicationController
   end
 
   def new
-    @book = Book.new
+    @book = Book.new.decorate
   end
 
   def edit
