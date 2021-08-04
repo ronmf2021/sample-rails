@@ -1,0 +1,14 @@
+= form_with url: books_search_path do |f|
+  .row
+    .col-md-3
+      = f.text_field :keyword, value: params[:keyword], class: 'form-control', placeholder: 'Keyword...'
+    .col-md-3
+      = f.select :category, options_for_select(category_options(), params[:category]), {}, class: 'form-control'
+    .col-md-3
+      = f.text_field :publish_date, value: params[:publish_date], class: 'form-control', placeholder: 'Publish date...', 'data-datetimepicker': 'true', autocomplete: 'off'
+    .col-md-3
+      = f.select :author, options_for_select(author_options(), params[:author]), {}, class: 'form-control'
+    .col-md-12
+      .float-right.btn-search-block
+        = f.submit 'Search', class: 'btn btn-success'
+        = f.button 'Reset', class: 'btn btn-danger', type: 'reset'

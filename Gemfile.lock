@@ -90,6 +90,9 @@ GEM
     ffi (1.15.3)
     globalid (0.5.1)
       activesupport (>= 5.0)
+    hpricot (0.8.6)
+    html2slim (0.2.0)
+      hpricot
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -241,6 +244,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   factory_bot_rails
   faker
+  html2slim
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mysql2 (~> 0.5)

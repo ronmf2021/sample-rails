@@ -1,0 +1,13 @@
+= form_with(model: category) do |form|
+  = render 'layouts/error', error_object: category
+  .form-group
+    = form.label :title
+    = form.text_field :title, class: 'form-control'
+  .form-group
+    = form.label :sort
+    = form.number_field :sort, class: 'form-control'
+  .field
+    = form.label :is_show, 'Show'
+    = form.check_box :is_show
+  .actions
+    = form.submit 'Apply', class: 'btn btn-primary'

@@ -1,0 +1,28 @@
+p#notice
+  = notice
+p
+  strong
+    | Title:
+  = @book.title
+p
+  strong
+    | Sort:
+  = @book.sort
+p
+  strong
+    | Category:
+  = category_title(@book.category)
+p
+  - if @book.image.attached?
+    = image_tag @book.image, style: 'max-width: 120px; display: block'
+p
+  strong
+    | Author:
+  = author_names(@book.authors)
+p
+  strong
+    | Publish date:
+  = @book.publish_date
+= link_to 'Edit', edit_book_path(@book)
+|  | 
+= link_to 'Back', books_path
