@@ -63,6 +63,11 @@ class BooksController < ApplicationController
     redirect_to books_path(search_params)
   end
 
+  def import
+  end
+
+  def upload
+  end
 
   private
     def set_book
