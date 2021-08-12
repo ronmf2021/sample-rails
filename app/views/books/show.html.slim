@@ -11,18 +11,18 @@ p
 p
   strong
     | Category:
-  = category_title(@book.category)
+  = @book.category&.title
 p
   - if @book.image.attached?
     = image_tag @book.image, style: 'max-width: 120px; display: block'
 p
   strong
     | Author:
-  = author_names(@book.authors)
+  = @book.author_name
 p
   strong
     | Publish date:
-  = @book.publish_date
+  = @book.formated_publish_date
 = link_to 'Edit', edit_book_path(@book)
 |  | 
 = link_to 'Back', books_path

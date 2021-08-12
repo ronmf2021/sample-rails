@@ -8,13 +8,13 @@
     = form.number_field :sort, class: 'form-control'
   .form-group
     = form.label :category_id
-    = form.select(:category_id, options_for_select(category_options(), category_id_by_book(book) ), {}, class: 'form-control')
+    = form.select(:category_id, options_for_select(category_options(), book.category_id), {}, class: 'form-control')
   .form-group
     = form.label :author_ids, 'Authors'
     = form.collection_select :author_ids, authors(), :id, :name, {}, class: 'form-control', multiple: true
   .form-group
     = form.label :publish_date
-    = form.text_field :publish_date, value: date_from_sql_to_view(book.publish_date, '%m/%d/%Y'), class:'form-control', placeholder: 'Publish date...', 'data-datetimepicker': 'true', autocomplete: 'off'
+    = form.text_field :publish_date, value: book.formated_publish_date, class:'form-control', placeholder: 'Publish date...', 'data-datetimepicker': 'true', autocomplete: 'off'
   .form-group
     = form.label :image
     - if book.image.attached?
