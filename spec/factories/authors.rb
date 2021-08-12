@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :author do
-    name { "Oracle" }
+    name { Faker::Name.name }
+    bday { DateTime.now }
   end
 end

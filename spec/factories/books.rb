@@ -1,9 +1,11 @@
 FactoryBot.define do
 
   factory :book do
-      title { "Ruby" }
-      sort { 1 }
-      publish_date { DateTime.parse('2021-08-02') }
-      category { association :category }
+    title { Faker::Name.name }
+    sequence(:sort) 
+    is_show { 1 }
+    publish_date { DateTime.now }
+    category { association :category }
   end
+
 end
