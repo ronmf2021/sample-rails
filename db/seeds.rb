@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+# require 'csv'
+# require 'faker'
+
+# values = []
+# columns = [ :title, :is_show, :sort, :publish_date, :category_id ]
+# (1..1000).each do |n|
+#     values << [ Faker::Book.title, 1, n, DateTime.now, rand(1...3) ]
+# end 
+
+# Book.import columns, values, validate: false
