@@ -18,6 +18,8 @@ class BookCsvImporter
         # get and import book
         books = books_from_csv_content(content, categories_hash, authors_hash)
         import_books(books) if books.length > 0
+
+        update_authors_books_table
     end
 
     private 
@@ -86,6 +88,24 @@ class BookCsvImporter
     def import_books(books= [])
         columns = [ :title, :publish_date, :category_id, :authors_id ]
         Book.import columns, books, validate: false
+    end
+
+    def update_authors_books_table
+        books = Book.where.not(authors_id: nil).pluck(:id, :authors_id)
+        authors_books = []
+        book_ids = []
+        books.each do |book|
+            next if book[1].nil?
+            book_ids << book[0].to_i
+            author_ids = book[1].split(",")
+            author_ids.each do |author_id|
+                authors_books << [book[0], author_id.to_i]
+            end
+        end
+        columns = [ :book_id, :author_id ]
+        AuthorsBooks.import columns, authors_books, validate: false
+        # update authors_id to nil after import
+        Book.where(id: book_ids).update_all(authors_id: nil)
     end
     
 end
