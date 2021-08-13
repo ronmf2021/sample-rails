@@ -76,15 +76,15 @@ class BookCsvImporter
             author = record[@options[:cols][:author]]
             category = record[@options[:cols][:category]]
             category_id = categories_hash[category]
-            author_ids = [authors_hash[author]]
+            author_ids = [authors_hash[author]].join(',')
             next if index == 0 #skip title
-            books << [ title, publish_date, category_id  ]
+            books << [ title, publish_date, category_id, author_ids  ]
         end
         return books
     end
 
     def import_books(books= [])
-        columns = [ :title, :publish_date, :category_id ]
+        columns = [ :title, :publish_date, :category_id, :author_ids ]
         Book.import columns, books, validate: false
     end
     
