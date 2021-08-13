@@ -84,7 +84,7 @@ class BookCsvImporter
     end
 
     def import_books(books= [])
-        columns = [ :title, :publish_date, :category_id, :author_ids ]
+        columns = [ :title, :publish_date, :category_id, :authors_id ]
         Book.import columns, books, validate: false
     end
     
