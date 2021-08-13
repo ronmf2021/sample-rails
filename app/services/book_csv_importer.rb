@@ -7,19 +7,21 @@ class BookCsvImporter
     end
   
     def call
-        content = CSV.read(@options[:path])
-        return if content.empty?
-        # get and import category
-        categories = categories_from_csv_content(content, categories_hash)
-        import_categories(categories) if categories.length > 0
-        # get and import author
-        authors = authors_from_csv_content(content, authors_hash)
-        import_authors(authors) if authors.length > 0
-        # get and import book
-        books = books_from_csv_content(content, categories_hash, authors_hash)
-        import_books(books) if books.length > 0
+        ActiveRecord::Base.transaction do
+            content = CSV.read(@options[:path])
+            return if content.empty?
+            # get and import category
+            categories = categories_from_csv_content(content, categories_hash)
+            import_categories(categories) if categories.length > 0
+            # get and import author
+            authors = authors_from_csv_content(content, authors_hash)
+            import_authors(authors) if authors.length > 0
+            # get and import book
+            books = books_from_csv_content(content, categories_hash, authors_hash)
+            import_books(books) if books.length > 0
 
-        update_authors_books_table
+            update_authors_books_table
+        end
     end
 
     private 
@@ -111,7 +113,7 @@ class BookCsvImporter
             end
         end
         columns = [ :book_id, :author_id ]
-        AuthorsBooks.import columns, authors_books, validate: false
+        AuthorsBooks.import column1s, authors_books, validate: false
         # update authors_id to nil after import
         Book.where(id: book_ids).update_all(authors_id: nil)
     end
