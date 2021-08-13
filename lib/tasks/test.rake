@@ -6,12 +6,14 @@ namespace :test do
   task create_sample_book_csv: :environment do
     headers = ['no', 'title', 'author', 'publish date', 'category']
     limit = 10000
-    csv_data = CSV.open("./book-test.csv", "wb") do |csv|
+    csv_data = CSV.open("./book-sample-test.csv", "wb") do |csv|
         csv << headers
         (1..limit).each do |n|
-            csv << [ n, Faker::Book.title, Faker::Book.author, DateTime.now, Faker::Educator.subject ]
+            author_names = "#{Faker::Book.author}, #{Faker::Book.author}" 
+            csv << [ n, Faker::Book.title, author_names, DateTime.now, Faker::Educator.subject ]
         end 
     end
+    puts "file \e[42m#{'./book-sample-test.csv'}\e[0m \e[32m#{'created'}\e[0m"
   end
 
 end
