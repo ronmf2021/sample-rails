@@ -64,9 +64,21 @@ class BooksController < ApplicationController
   end
 
   def import
+    @csv_upload_form = UploadBookCsvForm.new
   end
 
   def upload
+    # byebug
+    @csv_upload_form = UploadBookCsvForm.new(csv_params)
+    respond_to do |format|
+      if @csv_upload_form.save
+        ImportBookCsvJob.perform_later(@csv_upload_form.path)
+        format.html { redirect_to books_path, notice: "Book was successfully uploaded." }
+      else
+        format.html { render :import, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   private
@@ -81,6 +93,10 @@ class BooksController < ApplicationController
 
     def book_params
       params.require(:book).permit(:title, :sort, :category_id, :image, :publish_date, author_ids: [])
+    end
+
+    def csv_params
+      params.permit(:csv_file)
     end
 
     def search_params
