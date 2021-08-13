@@ -57,10 +57,11 @@ class BookCsvImporter
     def authors_from_csv_content(content, authors_hash)
         authors = []
         content.each_with_index do |record, index|
-            value = record[@options[:cols][:author]]
             next if index == 0 #skip title
-            next if authors_hash.has_key?(value) #existed in database
-            authors << value
+            author_names(record[@options[:cols][:author]]).each do |value|
+                next if authors_hash.has_key?(value) #existed in database
+                authors << value
+            end
         end
         return authors.uniq.map { |item| [item] }
     end
@@ -70,17 +71,24 @@ class BookCsvImporter
         Author.import columns, authors, validate: false
     end
 
+    def author_names(col_val)
+        return [] if col_val.nil? || col_val.empty?
+        return col_val.split(',')
+    end
+
     def books_from_csv_content(content, categories_hash, authors_hash)
         books = []
         content.each_with_index do |record, index|
+            next if index == 0 #skip title
             title = record[@options[:cols][:title]]
             publish_date = record[@options[:cols][:publish_date]]
-            author = record[@options[:cols][:author]]
-            category = record[@options[:cols][:category]]
-            category_id = categories_hash[category]
-            author_ids = [authors_hash[author]].join(',')
-            next if index == 0 #skip title
-            books << [ title, publish_date, category_id, author_ids  ]
+            category_title = record[@options[:cols][:category]]
+            category_id = categories_hash[category_title]
+            author_ids = []
+            author_names(record[@options[:cols][:author]]).each do |author_name|
+                author_ids << authors_hash[author_name]
+            end
+            books << [ title, publish_date, category_id, author_ids.join(',')  ]
         end
         return books
     end
@@ -97,7 +105,7 @@ class BookCsvImporter
         books.each do |book|
             next if book[1].nil?
             book_ids << book[0].to_i
-            author_ids = book[1].split(",")
+            author_ids = book[1].split(',')
             author_ids.each do |author_id|
                 authors_books << [book[0], author_id.to_i]
             end
