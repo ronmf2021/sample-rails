@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     collection do
       post :search
       get :import
-      get :export
+      post :export
       post :upload
     end
   end

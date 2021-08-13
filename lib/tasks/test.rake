@@ -6,7 +6,7 @@ namespace :test do
   task create_sample_book_csv: :environment do
     headers = ['no', 'title', 'author', 'publish date', 'category']
     limit = 10000
-    csv_data = CSV.open("./book-sample-test.csv", "wb") do |csv|
+    CSV.open("./book-sample-test.csv", "wb") do |csv|
         csv << headers
         (1..limit).each do |n|
             author_names = "#{Faker::Book.author}, #{Faker::Book.author}" 

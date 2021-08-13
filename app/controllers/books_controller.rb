@@ -67,8 +67,15 @@ class BooksController < ApplicationController
     @csv_upload_form = UploadBookCsvForm.new
   end
 
+  def export
+    csv_data = BookCsvExporter.new.call
+    respond_to do |format|
+      format.html
+      format.csv { send_data csv_data, filename: "books-#{Date.today}.csv" }
+    end
+  end
+
   def upload
-    # byebug
     @csv_upload_form = UploadBookCsvForm.new(csv_params)
     respond_to do |format|
       if @csv_upload_form.save
