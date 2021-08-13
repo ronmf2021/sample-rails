@@ -14,6 +14,7 @@ class ImportBookCsvJob < ApplicationJob
       }
     }
     BookCsvImporter.new(options).call()
-    puts "[=======JOB=======]:" << args[0]
+    File.delete(args[0]) if File.exist?(args[0])
+    puts "[=======JOB DONE=======]:" << args[0]
   end
 end
