@@ -73,7 +73,7 @@ class BooksController < ApplicationController
     respond_to do |format|
       if @csv_upload_form.save
         ImportBookCsvJob.perform_later(@csv_upload_form.path)
-        format.html { redirect_to books_path, notice: "Book was successfully uploaded." }
+        format.html { redirect_to books_path, notice: "Book was successfully uploaded. Refresh page to see result" }
       else
         format.html { render :import, status: :unprocessable_entity }
       end
