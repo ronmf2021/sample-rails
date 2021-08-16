@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Books", type: :request do
 
+    include ActionDispatch::TestProcess::FixtureFile
+
     context "GET #index" do
         let!(:books) { FactoryBot.create_list :book, 5 } 
 
@@ -39,7 +41,7 @@ RSpec.describe "Books", type: :request do
     context "POST #create" do
         it "should redirect to index" do
             post books_path, params: { book: FactoryBot.attributes_for(:book, publish_date: '08/02/2021', author_ids: [author.id], category_id: category.id) }
-            expect(response).to redirect_to books_path
+            expect(response).to redirect_to book_path(assigns[:book])
         end
 
         it "should create new book" do
@@ -53,7 +55,7 @@ RSpec.describe "Books", type: :request do
             book = FactoryBot.create :book
             book.save
             put book_path(book), params: { book: FactoryBot.attributes_for(:book, title: 'Test', publish_date: '08/02/2021', author_ids: [author.id], category_id: category.id) }
-            expect(response).to redirect_to books_path
+            expect(response).to redirect_to book_path(book)
             expect(Book.find(book.id).title).to eq('Test')
         end     
     end
@@ -68,6 +70,29 @@ RSpec.describe "Books", type: :request do
             expect { book.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
     end
+
+    context "GET #import" do
+        it "should render template" do
+            get import_books_path
+            expect(response).to render_template(:import)
+        end
+    end
+
+    context "POST #upload" do
+        let!(:csv_file) { fixture_file_upload("book-sample-test.csv", "text/csv") }
+        it "should redirect to index" do
+           expect(ImportBookCsvJob).to receive("perform_later").with("public/upload/csv/book-sample-test.csv")
+           post upload_books_path, params: { csv_file: csv_file } 
+           expect(response).to redirect_to books_path
+        end 
+    end
     
+
+    context "POST #export" do
+        it "should return csv file" do
+            post export_books_path(format: "csv")
+            expect(response.header['Content-Type']).to eq("text/csv")
+        end
+    end
     
 end
