@@ -113,7 +113,7 @@ class BookCsvImporter
             end
         end
         columns = [ :book_id, :author_id ]
-        AuthorsBooks.import column1s, authors_books, validate: false
+        AuthorsBooks.import columns, authors_books, validate: false
         # update authors_id to nil after import
         Book.where(id: book_ids).update_all(authors_id: nil)
     end
