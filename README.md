@@ -21,4 +21,5 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+* Create CSV book for test
+rake test:create_sample_book_csv

@@ -1,0 +1,7 @@
+= render 'layouts/error', error_object: @csv_upload_form
+= form_with url: upload_books_path do |f|
+  .form-group
+    = f.label :csv_file
+    = f.file_field :csv_file, class: 'form-control'
+  .actions
+    = f.submit 'Apply', class: 'btn btn-primary'

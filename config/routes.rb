@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :books do
     collection do
       post :search
+      get :import
+      post :export
+      post :upload
     end
   end
 

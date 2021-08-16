@@ -10,5 +10,5 @@
       = f.select :author, options_for_select(author_options(), params[:author]), {prompt: "--Choose author--"}, class: 'form-control'
     .col-md-12
       .float-right.btn-search-block
-        = f.submit 'Search', class: 'btn btn-success'
-        = f.button 'Reset', class: 'btn btn-danger', type: 'reset'
+        = f.submit 'Search', class: 'btn btn-success btn-ml'
+        = f.button 'Reset', class: 'btn btn-danger btn-ml', type: 'reset'
