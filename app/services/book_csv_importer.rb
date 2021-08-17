@@ -21,7 +21,11 @@ class BookCsvImporter
             import_books(books) if books.length > 0
 
             update_authors_books_table
+
+            return true
         end
+        rescue Exception => e
+            return false
     end
 
     private 

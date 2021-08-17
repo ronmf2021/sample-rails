@@ -79,10 +79,9 @@ class BooksController < ApplicationController
     @csv_upload_form = UploadBookCsvForm.new(csv_params)
     respond_to do |format|
       if @csv_upload_form.save
-        ImportBookCsvJob.perform_later(@csv_upload_form.path)
-        format.html { redirect_to books_path, notice: "Book was successfully uploaded. Refresh page to see result" }
+        format.html { redirect_to books_path, notice: "Book was successfully imported." }
       else
-        format.html { render :import, status: :unprocessable_entity }
+        format.html { redirect_to import_books_path, alert: 'Book was failure imported!' }
       end
     end
 
