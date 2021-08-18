@@ -6,7 +6,7 @@ RSpec.describe UploadBookCsvForm, type: :model do
 
     context "validation tests" do
         
-        let!(:error_ext_params) { {csv_file: fixture_file_upload("book-sample-test-failure.csv", "text/csv1")} }
+        let!(:error_params) { {csv_file: fixture_file_upload("book-sample-test-error.csv1", "text/csv1")} }
         let!(:params) { {csv_file: fixture_file_upload("book-sample-test-success.csv", "text/csv")} }
 
         it "file should be presence" do
@@ -16,7 +16,7 @@ RSpec.describe UploadBookCsvForm, type: :model do
         end
 
         it "file should has csv extention" do
-            csv_upload_form = UploadBookCsvForm.new(error_ext_params)
+            csv_upload_form = UploadBookCsvForm.new(error_params)
             csv_upload_form.save
             expect(csv_upload_form.errors.messages[:base][0]).to eq("File require csv ext")
         end

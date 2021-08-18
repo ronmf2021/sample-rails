@@ -30,7 +30,7 @@ class UploadBookCsvForm
         }
 
         result = BookCsvImporter.new(options).call()
-        self.errors.add :base, "File import failured" if result == false
+        self.errors.add :base, "File imported failure" if result == false
         return result
     end
 

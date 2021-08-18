@@ -50,4 +50,31 @@ RSpec.feature "Books", type: :feature do
       expect(page).to have_text("ruby")
   end
 
+  scenario "import success csv" do
+    visit "/books/import"
+      find('form input[type="file"]').set('spec/fixtures/files/book-sample-test-success.csv')
+      click_button "Apply"
+      expect(page).to have_text("Book was successfully imported.")
+  end
+
+  scenario "import failure csv" do
+    visit "/books/import"
+      find('form input[type="file"]').set('spec/fixtures/files/book-sample-test-failure.csv')
+      click_button "Apply"
+      expect(page).to have_text("File imported failure")
+  end
+
+  scenario "import without upload file" do
+    visit "/books/import"
+      click_button "Apply"
+      expect(page).to have_text("can't be blank")
+  end
+
+  scenario "import error file" do
+    visit "/books/import"
+      find('form input[type="file"]').set('spec/fixtures/files/book-sample-test-error.csv1')
+      click_button "Apply"
+      expect(page).to have_text("File require csv ext")
+  end
+
 end

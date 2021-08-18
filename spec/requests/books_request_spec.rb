@@ -85,10 +85,17 @@ RSpec.describe "Books", type: :request do
 
     context "POST #upload" do
         let!(:csv_file) { fixture_file_upload("book-sample-test-success.csv", "text/csv") }
-        it "should redirect to index" do
+        let!(:failure_csv_file) { fixture_file_upload("book-sample-test-failure.csv", "text/csv") }
+        
+        it "should redirect to index if success" do
            post upload_books_path, params: { csv_file: csv_file } 
            expect(response).to redirect_to books_path
         end 
+
+        it "should render import if failure" do
+            post upload_books_path, params: { csv_file: failure_csv_file } 
+            expect(response).to render_template(:import)
+        end
     end
 
     context "POST #export" do
