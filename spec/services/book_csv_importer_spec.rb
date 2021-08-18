@@ -5,11 +5,12 @@ RSpec.describe BookCsvImporter, type: :model do
 
     include ActionDispatch::TestProcess::FixtureFile
 
-    let!(:params) { {csv_file: fixture_file_upload("book-sample-test.csv", "text/csv")} }
 
     describe '#call' do
 
         context "test result after import" do
+            
+            let!(:params) { {csv_file: fixture_file_upload("book-sample-test-success.csv", "text/csv")} }
             
             it "should have data in DB" do
                 csv_upload_form = UploadBookCsvForm.new(params)

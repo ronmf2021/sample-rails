@@ -36,9 +36,11 @@ RSpec.describe "Books", type: :request do
         end
     end
 
-    let!(:author) { FactoryBot.create :author }
-    let!(:category) { FactoryBot.create :category, title: 'Programming Language' }
+    
     context "POST #create" do
+        let!(:author) { FactoryBot.create :author }
+        let!(:category) { FactoryBot.create :category, title: 'Programming Language' }
+        
         it "should redirect to index" do
             post books_path, params: { book: FactoryBot.attributes_for(:book, publish_date: '08/02/2021', author_ids: [author.id], category_id: category.id) }
             expect(response).to redirect_to book_path(assigns[:book])
@@ -51,6 +53,9 @@ RSpec.describe "Books", type: :request do
     end
 
     context "PUT #put" do
+        let!(:author) { FactoryBot.create :author }
+        let!(:category) { FactoryBot.create :category, title: 'Programming Language' }
+
         it "should redirect to index and update " do
             book = FactoryBot.create :book
             book.save
@@ -79,14 +84,12 @@ RSpec.describe "Books", type: :request do
     end
 
     context "POST #upload" do
-        let!(:csv_file) { fixture_file_upload("book-sample-test.csv", "text/csv") }
+        let!(:csv_file) { fixture_file_upload("book-sample-test-success.csv", "text/csv") }
         it "should redirect to index" do
-           expect(ImportBookCsvJob).to receive("perform_later").with("public/upload/csv/book-sample-test.csv")
            post upload_books_path, params: { csv_file: csv_file } 
            expect(response).to redirect_to books_path
         end 
     end
-    
 
     context "POST #export" do
         it "should return csv file" do

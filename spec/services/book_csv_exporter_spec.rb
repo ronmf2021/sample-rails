@@ -5,11 +5,12 @@ RSpec.describe BookCsvExporter, type: :model do
 
     include ActionDispatch::TestProcess::FixtureFile
 
-    let!(:params) { {csv_file: fixture_file_upload("book-sample-test.csv", "text/csv")} }
 
     describe '#call' do
 
         context "test result after export" do
+        
+            let!(:params) { {csv_file: fixture_file_upload("book-sample-test-success.csv", "text/csv")} }
             
             it "should have title in csv" do
                 csv_string = BookCsvExporter.new().call

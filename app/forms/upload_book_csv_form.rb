@@ -1,6 +1,8 @@
 class CsvValidator < ActiveModel::Validator
     def validate(record)
-        record.errors.add :base, "File require csv ext" unless record.csv_file.content_type == "text/csv"
+        unless record.csv_file.nil?
+            record.errors.add :base, "File require csv ext" if record.csv_file.content_type != "text/csv"
+        end
     end
 end
 
@@ -26,7 +28,10 @@ class UploadBookCsvForm
                 :category => 4
             }
         }
-        return BookCsvImporter.new(options).call()
+
+        result = BookCsvImporter.new(options).call()
+        self.errors.add :base, "File import failured" if result == false
+        return result
     end
 
 end

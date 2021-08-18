@@ -81,7 +81,7 @@ class BooksController < ApplicationController
       if @csv_upload_form.save
         format.html { redirect_to books_path, notice: "Book was successfully imported." }
       else
-        format.html { redirect_to import_books_path, alert: 'Book was failure imported!' }
+        format.html { render :import, status: :unprocessable_entity }
       end
     end
 
